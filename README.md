@@ -12,7 +12,7 @@ Building gameplay systems with **C++ and Unreal Engine 5**.
 ![Git](https://img.shields.io/badge/Git-F05032?style=flat&logo=git&logoColor=white)
 ![Perforce Helix](https://img.shields.io/badge/PERFORCE%20HELIX-%2300AEEF.svg?style=flat&logo=Perforce&logoColor=white)
 
-**Gameplay Systems · Combat · Multiplayer · Optimization**
+**Gameplay Systems · Combat · Multiplayer · AI · Optimization**
 
 </div>
 
