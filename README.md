@@ -28,18 +28,20 @@ I'm looking for a **junior gameplay programmer** role where I can learn from an 
 
 ### [FPSCombatSystem](https://github.com/xzhka/FPSCombatSystem)
 
-▶ [Demo video](https://youtu.be/u9v9m9nT1t4)
+▶ [Demo video](https://youtu.be/vLuyH66EC4M)
 
 A multiplayer first-person shooter built in **UE5 C++** on the Gameplay Ability System, using a Lyra-style modular architecture.
 
 **What's inside**
 
 - **Ability system:** Sprint, Dash, Updraft, Reload, Aim, Throw (charge and release), Quickbar switching, and Death, all as GAS abilities on a shared base class. Cooldowns use a SetByCaller pattern, and ability-vs-ability rules live in a Tag Relationship Mapping data asset.
-- **Weapons:** A ranged weapon ability with a client-predicted trace and server-side hit validation. Semi, full-auto, and burst fire are separate fire-mode classes. Recoil patterns and spread are data-driven per weapon.
+- **Weapons:** A ranged weapon ability with a client-predicted trace and server-side hit validation (range and wall check). Semi, full-auto, and burst fire are separate fire-mode classes. Recoil patterns and spread are data-driven per weapon.
 - **Throwables:** A projectile base class configured by data assets, plus an explosive component that applies splash damage through Gameplay Effects.
 - **Inventory and equipment:** Item and equipment managers using `FastArraySerializer`, replicated subobjects, and Iris replication fragments.
 - **Damage and attributes:** A custom Attribute Set with `Damage` and `Heal` meta attributes, plus damage and heal execution calculations.
-- **Game flow:** Death and respawn handled by a custom GameMode (per-player respawn timers).
+- **Game flow:** Team-aware spawn points and per-controller respawn timers in a custom GameMode, shared by players and bots.
+- **Enemy AI:** Behavior Tree, Blackboard, EQS and AI Perception enemies, spawned as real players (PlayerState, ASC, quick bar). They fight by sending gameplay events (fire, reload, throw), so they use the same GAS abilities as a human player. Includes ammo handling, pickup searching and grenade throws.
+- **Limb damage:** Physical Materials carry gameplay tags (head, torso, arm, leg), and each weapon asset defines its own multiplier per zone. The server applies it inside the damage execution calculation.
 - **Animation:** C++ anim instances, Linked Anim Layers per weapon, and an IK Rig component that keeps the left hand on the weapon grip.
 - **HUD:** Widgets update through the Gameplay Message Subsystem, so UI stays decoupled from gameplay code.
 - **Performance:** Profiled with Unreal Insights and `memreport` on a 17-character stress scenario. Animation cost −26% (1.09 → 0.81 ms/frame), first-throw hitch removed (throw spawn 3.9 → under 1 ms), grenade texture memory −93% (42.8 → 2.8 MB). My own gameplay code costs about 0.04 ms/frame. Method, caveats and reproduction steps are in the project README.
@@ -56,6 +58,7 @@ A multiplayer first-person shooter built in **UE5 C++** on the Gameplay Ability 
 | **Networking and Replication** | Server-authoritative gameplay, client prediction, replicated properties and structs, `FastArraySerializer`, Server RPCs, `NetUpdateFrequency` |
 | **Architecture** | Lyra-style modular components, data-driven definitions (data assets), decoupled systems via gameplay messages |
 | **Character and Combat** | Stats systems, weapons, recoil and spread, projectiles, death and respawn |
+| **AI** | Behavior Trees, Blackboards, services and tasks, EQS (queries and custom contexts), AI Perception (sight, team affiliation), AI driving GAS abilities through gameplay events |
 | **Animation** | Linked Anim Layers, Aim Offsets, IK Rig |
 | **Profiling and Optimization** | Unreal Insights (CPU traces, custom trace scopes and bookmarks), `memreport`, animation update-rate optimization, async asset preloading, texture caps |
 | **Tools** | Git, Perforce Helix, Visual Studio / Rider, Jira |
